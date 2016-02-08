@@ -1,0 +1,61 @@
+<html>
+<head>
+    <link rel="stylesheet" href="../ipad_common/styles.css"/>
+    <meta charset="UTF-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<meta name="format-detection" content="telephone=no">
+  	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <script type="text/javascript" src="../ipad_common/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../ipad_common/scripts_common.js"></script>
+    <title>Student Services Meeting Room</title>
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META NAME="ROBOTS" CONTENT="NONE">
+
+    <script type="text/javascript">
+        var XMLURL = 'https://portal.lskysd.ca/officecalendars';
+        var CalendarGUID = '{0c6fab6f-8e0f-47db-9d3b-9cd2896be6d8}';
+
+        $(document).ready(function(){
+          UpdateCalendarItems(XMLURL,CalendarGUID);
+        });
+
+        setInterval(function() {
+          UpdateCalendarItems(XMLURL,CalendarGUID);
+         }, 60000);
+    </script>
+</head>
+
+<body>
+    <div id="curtains" class="hidden"></div>
+	<div id="page_container">
+        <div class="occupancy_box" id="occupancy"></div>
+		<div class="header_tile">Student Services Meeting Room</div>
+
+        <div id="event_container" class="event_container"><br/>
+
+        <table border=0 cellpadding=0 cellspacing=0 id="tblCurrentEvents" style="margin-left: auto; margin-right: auto;"><tr>
+                <td>  
+                </td>
+            </tr>
+        </table>            
+
+        <div class="event_section_title">Coming up:</div>
+        <table border=0 cellpadding=0 cellspacing=0 id="tblUpcomingEvents" style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </table>            
+
+        </div>        
+		<div class="footer_tile">			
+			<div id="txtDate"></div>
+		</div>
+	</div>
+</body>
+</html>
