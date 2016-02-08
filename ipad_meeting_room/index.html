@@ -1,28 +1,42 @@
 <html>
 <head>
-    <link rel="stylesheet" href="../ipad_common/styles.css"/>
     <meta charset="UTF-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
-	<meta name="format-detection" content="telephone=no">
-  	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <script type="text/javascript" src="../ipad_common/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="../ipad_common/scripts_common.js"></script>
-    <title>Conference Room</title>
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <META NAME="ROBOTS" CONTENT="NONE">
+
+    <title>Meeting Room</title>
+
+    <!-- Tell Safari that this is an App, not a website -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+    <!-- Common ipad stylesheets -->
+    <link rel="stylesheet" href="../Stylesheets/styles.css"/>
+
+    <!-- Common ipad javascripts -->
+    <script type="text/javascript" src="../CommonJavascript/Settings.js"></script>
+    <script type="text/javascript" src="../CommonJavascript/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../CommonJavascript/common.js"></script>
+
+    <!-- Stylesheets unique to this sign -->
+
+    <!-- Javascripts unique to this sign -->
+
 
     <script type="text/javascript">
         var XMLURL = 'https://portal.lskysd.ca/officecalendars';
         var CalendarGUID = '{5e88108d-3c75-4186-8a44-51d64a75d78d}';
 
         $(document).ready(function(){
-          UpdateCalendarItems(XMLURL,CalendarGUID);
+            UpdateCalendarItems(XMLURL,CalendarGUID);
         });
 
         setInterval(function() {
-          UpdateCalendarItems(XMLURL,CalendarGUID);
-         }, 60000);
+            UpdateCalendarItems(XMLURL,CalendarGUID);
+        }, 60000);
     </script>
 </head>
 

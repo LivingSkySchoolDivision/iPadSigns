@@ -1,0 +1,8 @@
+# use glob syntax.
+syntax: glob
+
+# WebStorm stuff to ignore
+*.iml
+*.ipr
+*.iws
+.idea/
