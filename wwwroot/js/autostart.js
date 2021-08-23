@@ -24,3 +24,8 @@ $(document).ready(function(){
 setInterval(function() {
     booking_update();
 }, 240000);
+
+// Refresh the page periodically (2.5 hrs)
+setInterval(function() {
+    window.location.replace(window.location.href);
+}, 9000000);
