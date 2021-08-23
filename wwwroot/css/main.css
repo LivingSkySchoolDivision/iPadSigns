@@ -20,7 +20,7 @@ body {
     box-sizing: border-box;
 }
 
-.resource_name {
+#resource_name {
     font-size: 200%;
     text-align: left;
     font-weight: bold;
@@ -45,11 +45,11 @@ body {
 }
 
 
-.current_booking {
+#current_booking {
     margin-bottom: 50px;
 }
 
-.current_booking_name {
+#current_booking_name {
     font-size: 600%;
     padding-left: 30px;
     padding: 20px;
@@ -65,7 +65,7 @@ body {
     color: rgba(255,255,255,0.5);
 }
 
-.current_booking_time {
+#current_booking_time {
     font-size: 125%;
     padding-left: 30px;
 }
@@ -84,13 +84,13 @@ body {
 .next_booking_name {
     font-size: 175%;
     padding-left: 20px;
+} 
+
+#no_events_until_later_time {
+    font-weight: bold;
 }
 
-.coming_up_tiles {
-    
-}
-
-.coming_up_container {
+#coming_up_container {
     color: rgba(255,255,255,0.6);
     overflow: auto;
     position: absolute;
@@ -133,4 +133,26 @@ body {
 .no_bookings_today_subtext {
     font-size: 120%;
 
+}
+
+#resource_list {
+    overflow: auto;
+    max-height: 1024px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    background-color: white;
+    color: black;
+}
+
+.bookable_resource {
+    font-size: 150%;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none;
 }

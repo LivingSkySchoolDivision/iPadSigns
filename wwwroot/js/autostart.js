@@ -2,6 +2,7 @@
 /* * Document onLoad stuff                    * */
 /* ******************************************** */
 $(document).ready(function(){  
+    booking_init("https://booking-api.lskysd.ca");
 });
 
 
@@ -21,5 +22,5 @@ $(document).ready(function(){
 
 // Every second
 setInterval(function() {
-    // Update time
-}, 1000);
+    booking_update();
+}, 240000);

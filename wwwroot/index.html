@@ -16,67 +16,48 @@
 
     	<link href="css/main.css" rel="stylesheet" />
 
-    	<script src="js/jquery-3.6.0.min"></script>
+
+        <script src="js/lib/js.cookie.js"></script>
+    	<script src="js/lib/jquery-3.6.0.min.js"></script>
     	<script src="js/AppleLinkFix.js"></script>
-        <script src="js/js.cookie.js"></script>
-        
+
+    	<script src="js/bookingapi.js"></script>
     	<script src="js/autostart.js"></script>
 
 	</head>
 	<body>
 		<div class="ipad_sized_page_container">
-            <img class="lssd_logo" src="img/lssd_whitetext.svg">
-			<div class="resource_name">Learning Services Meeting Room</div>
-            <!--
-            <div class="no_bookings_today">
+            <img class="lssd_logo" src="img/lssd_whitetext.svg" onclick="booking_toggle_resource_menu()">
+            <div id="resource_list" class="hidden"></div>
+			<div id="resource_name"></div>
+
+            <div id="no_events_today" class="no_bookings_today hidden">
                 <div>
                     <div class="no_bookings_today_text">No bookings today</div>
                     <div class="no_bookings_today_subtext">Create a booking at bookings.lskysd.ca</div>
                     <img src="img/qr-bookings.svg">
                 </div>
             </div>
-            -->
-            <!--
-            <div class="no_bookings_today">
+
+            <div id="no_events_until_later" class="no_bookings_today hidden">
                 <div>
-                    <div class="no_bookings_today_text">Open until 13:00</div>
+                    <div class="no_bookings_today_text">
+                        Next booking at
+                        <div id="no_events_until_later_time"></div>
+                    </div>
                 </div>
             </div>
-            -->
-            <!--
-            <div class="current_booking">
+
+            <div id="current_booking" class="hidden">
                 <div class="current_booking_label">Right now:</div>
-                <div class="current_booking_name">
-                    Senior Leadership Team Weekly Meeting
-                </div>
-                <div class="current_booking_time">8:00 to 16:30</div>
+                <div id="current_booking_name"></div>
+                <div id="current_booking_time"></div>
             </div>
-            -->
-            <!--
-            <div class="coming_up_container">
+
+            <div id="coming_up_container" class="hidden">
                 <div class="coming_up_label">Later today:</div>
-                <div class="coming_up_tiles">
-                    <div class="next_booking">
-                        <div class="next_booking_label">13:30 to 15:30:</div>
-                        <div class="next_booking_name">
-                            New Teacher Workshop
-                        </div>
-                    </div>
-                    <div class="next_booking">
-                        <div class="next_booking_label">15:45 to 16:30:</div>
-                        <div class="next_booking_name">
-                            MySchoolSask Meeting
-                        </div>
-                    </div>
-                    <div class="next_booking">
-                        <div class="next_booking_label">16:45 to 18:30:</div>
-                        <div class="next_booking_name">
-                            Floor cleaning
-                        </div>
-                    </div>
-                </div>
+                <div id="coming_up_event_bucket"></div>
             </div>
-            -->
 		</div>
 	</body>
 </html>
