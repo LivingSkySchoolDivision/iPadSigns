@@ -7,12 +7,13 @@ body {
     color: white;
     box-sizing: border-box;
     background: black;
+    font-size: 150%;
 }
 
 .ipad_sized_page_container {	
 	background-color: #373A3C;	
-    width: 768px;
-    height: 1024px;
+    width: 1200px;
+    height: 1920px;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
@@ -99,6 +100,7 @@ body {
     max-height: 400px;
     background-color: inherit;
     box-sizing: border-box;
+    padding-bottom: 75px;
 }
 
 .coming_up_label {
@@ -127,7 +129,7 @@ body {
 
 .no_bookings_today_text {
     font-size: 400%;
-
+    color: rgba(255,255,255,0.7);
 }
 
 .no_bookings_today_subtext {
