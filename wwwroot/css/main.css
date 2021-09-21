@@ -7,13 +7,12 @@ body {
     color: white;
     box-sizing: border-box;
     background: black;
-    font-size: 150%;
 }
 
 .ipad_sized_page_container {	
 	background-color: #373A3C;	
-    width: 1200px;
-    height: 1920px;
+    width: 800px;
+    height: 1144px;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
