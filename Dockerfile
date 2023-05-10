@@ -1,4 +1,4 @@
-FROM nginx:1.19.2-alpine
+FROM nginx:latest
 COPY ./wwwroot /wwwroot
 COPY ./nginx.conf /etc/nginx/nginx.conf
 RUN chown -R nginx:nginx /var/cache/nginx && \
