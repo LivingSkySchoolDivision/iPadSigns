@@ -24,42 +24,14 @@
     	<script src="js/AppleLinkFix.js"></script>
 
     	<script src="js/bookingapi.js"></script>
-    	<script src="js/autostart.js"></script>
+    	<script src="js/index.js"></script>
 
 	</head>
 	<body>
 		<div class="ipad_sized_page_container">
-            <img class="lssd_logo" src="img/lssd_whitetext.svg" onclick="booking_toggle_resource_menu()">
-            <div id="resource_list" class="hidden"></div>
-			<div id="resource_name"></div>
+            <div id="resource_list">
 
-            <div id="no_events_today" class="no_bookings_today hidden">
-                <div>
-                    <div class="no_bookings_today_text">No bookings today</div>
-                    <div class="no_bookings_today_subtext">Create a booking at bookings.lskysd.ca</div>
-                    <img src="img/qr-bookings.svg">
-                </div>
             </div>
-
-            <div id="no_events_until_later" class="no_bookings_today hidden">
-                <div>
-                    <div class="no_bookings_today_text">
-                        Next booking at
-                        <div id="no_events_until_later_time"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="current_booking" class="hidden">
-                <div class="current_booking_label">Right now:</div>
-                <div id="current_booking_name"></div>
-                <div id="current_booking_time"></div>
-            </div>
-
-            <div id="coming_up_container" class="hidden">
-                <div class="coming_up_label">Later today:</div>
-                <div id="coming_up_event_bucket"></div>
-            </div>
-		</div>
+        </div>
 	</body>
 </html>
