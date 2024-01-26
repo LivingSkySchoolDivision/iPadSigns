@@ -1,8 +1,8 @@
 /* ******************************************** */
 /* * Document onLoad stuff                    * */
 /* ******************************************** */
-$(document).ready(function(){  
-    booking_init("https://booking-api.lskysd.ca");
+$(document).ready(function(){      
+    booking_refresh_resource_list("https://booking-api.lskysd.ca");
 });
 
 
@@ -20,10 +20,10 @@ $(document).ready(function(){
  3600000     1 hour
  */
 
-// Every second
+// Every 5 minutes
 setInterval(function() {
-    booking_update();
-}, 240000);
+    booking_refresh_resource_list("https://booking-api.lskysd.ca");
+}, 300000);
 
 // Refresh the page periodically (2.5 hrs)
 setInterval(function() {
