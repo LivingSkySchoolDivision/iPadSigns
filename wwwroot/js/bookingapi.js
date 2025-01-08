@@ -1,20 +1,42 @@
-var booking_api_selected_resource_id = ""; // This is now the URL of the exact calendar we need
+//var booking_api_selected_resource_id = ""; // This is now the URL of the exact calendar we need
+var booking_api_resource_to_container_map = new Map();
+
 var booking_api_base_url = "";
 var booking_div_resource_list = "resource_list";
 var booking_div_resource_name = "resource_name";
 var booking_cookie_name = "lssd_booking_saved_resource_id";
 
-// What is this?
+// list  of active booking events that should be displayed
+// We'll need to loop through these to check if any need to be added or removed periodically
 var booking_active_upcoming_booking_ids = [''];
 
-
-function booking_init(BASEURL,RESOURCEID) {
-    booking_api_selected_resource_id = RESOURCEID;
+// Initialize the whole system (but not a resource yet)
+function booking_initial_settings(BASEURL) 
+{    
     booking_api_base_url = BASEURL;
+    console.log("Booking API initial config { api_base_url: " + booking_api_base_url + " } ");
+}
 
-    console.log("Booking initialized: url=" + booking_api_base_url + " id=" + booking_api_selected_resource_id);
-    // Forform an initial update
-    booking_update();
+// Initialize a resource into a container
+function booking_init_resource_display(CONTAINER, RESOURCEID) 
+{
+    if (!booking_api_base_url) {
+        console.error("ERROR: Could not initialize resource " + RESOURCEID + " into container " + CONTAINER + " - Must run booking_initial_settings() first to set base URL");
+        return;
+    } else {
+        console.log("Initializing resource " + RESOURCEID + " into container " + CONTAINER);
+
+        // Register this resource with this container, so we can update it later
+        booking_api_resource_to_container_map.set(CONTAINER, RESOURCEID);
+
+        // Insert the template HTML for this resource
+        var template_html = "";        
+        template_html += "<div id=\"booking-"+RESOURCEID+"-resource-name\" class=\"resource_name\"></div>";
+        template_html += "<div id=\"booking-"+RESOURCEID+"-no-events-today\" class=\"no_bookings_today hidden\"><div><div class=\"no_bookings_today_text\">No bookings today</div><div class=\"no_bookings_today_subtext\">Create a booking at bookings.lskysd.ca</div><img src=\"img/qr-bookings.svg\"></div></div>";
+        template_html += "<div id=\"booking-"+RESOURCEID+"-current-booking\" class=\"current_booking_content hidden\"><div><div class=\"current_booking_label\">Right now:</div><div id=\"booking-"+RESOURCEID+"-current-booking-title\" class=\"booking_title\"></div><div id=\"booking-"+RESOURCEID+"-current-booking-time\" class=\"booking_time\"></div></div></div>";
+        template_html += "<div id=\"booking-"+RESOURCEID+"-coming-up\" class=\"coming_up_container hidden\"><div class=\"coming_up_label\">Later today:</div><div id=\"booking-"+RESOURCEID+"-upcoming-events-list\"></div></div>";
+        $('#' + CONTAINER).html(template_html);
+    }
 }
 
 function is_in_array(haystack, needle) {
@@ -27,35 +49,56 @@ function is_in_array(haystack, needle) {
     return found;
 }
 
-function booking_update() {
-    console.log("Updating bookings...");
+function booking_refresh_resource_list(URL) {
+    var resource_url = URL + "/Resources";
 
-    if ((booking_api_base_url.length > 0) && (booking_api_selected_resource_id.length > 0)) {
-        // Get the current month and year
-        var curDate = new Date();
-        var curYear = curDate.getFullYear();
-        var curMonth = curDate.getMonth() + 1;
-        var curDay = curDate.getDate();
-
-
-        // First update the resource details
-        var this_resource_url = booking_api_base_url + "/Resources/" + booking_api_selected_resource_id;
-        var this_resource_bookings_url = booking_api_base_url + "/Bookings/" + booking_api_selected_resource_id + "/" + curYear + "/" + curMonth + "/" + curDay + "/";;
-
-        $.getJSON(this_resource_url, function(data) {
-
-            // Set resource name
-            $('#' + booking_div_resource_name).html(data.name);
+    $.getJSON(resource_url, function(data) {
+        var html = "";
+        $.each(data, function(list, obj) {
+            html += "<div class=\"bookable_resource\"><a href=\"screen.html?id=" + obj.id + "\">" + obj.name + "</a></div>";
         });
 
-        // Now load the bookings for this resource for today
+        $('#' + booking_div_resource_list).html(html);
+    });
+}
+
+function booking_init_resource_list() 
+{
+    // Display a list of all resources (for the main index page)
+
+}
+
+function booking_update() 
+{
+    // Get the current month and year
+    var curDate = new Date();
+    var curYear = curDate.getFullYear();
+    var curMonth = curDate.getMonth() + 1;
+    var curDay = curDate.getDate();
+
+
+    for (let [HTMLCONTAINER, RESOURCEID] of booking_api_resource_to_container_map) 
+    {
+        console.log(`Updating ${HTMLCONTAINER} with resource ${RESOURCEID}`);
+        var this_resource_url = booking_api_base_url + "/Resources/" + RESOURCEID;
+        var this_resource_bookings_url = booking_api_base_url + "/Bookings/" + RESOURCEID + "/" + curYear + "/" + curMonth + "/" + curDay + "/";;
+
+        // Get the resource details from the API
+        $.getJSON(this_resource_url, function(data) {            
+            // Check if we can update the resource name
+            if ($('#' + "booking-"+RESOURCEID+"-resource-name").length) {
+                $('#' + "booking-"+RESOURCEID+"-resource-name").html(data.name);
+            }
+        });
+
+
+        // Get booking details for this resource from the API
 
         $.getJSON(this_resource_bookings_url, function(data) {
             var html = "";
             var currentBookingsCount = 0;
             var upcomingBookingsCount = 0;
             var found_upcoming_booking_ids = [];
-
             var nextEventStart = new Date(8640000000000000);
 
             $.each(data, function(list, obj) {
@@ -68,8 +111,8 @@ function booking_update() {
                 if ((now >= localStartTime) && (now <= localEndTime)) {
                     currentBookingsCount++;
 
-                    $('#current_booking_name').html(obj.shortDescription);
-                    $('#current_booking_time').html(
+                    $("#booking-"+RESOURCEID+"-current-booking-title").html(obj.shortDescription);
+                    $("#booking-"+RESOURCEID+"-current-booking-time").html(
                         localStartTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +
                         " - " +
                         localEndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -89,7 +132,7 @@ function booking_update() {
                         html += "<div class=\"next_booking_name\">" + obj.shortDescription + "</div>";
                         html += "</div>";
 
-                        $('#coming_up_event_bucket').append(html);
+                        $("#booking-"+RESOURCEID+"-upcoming-events-list").append(html);
                     }
 
                     if (is_in_array(booking_active_upcoming_booking_ids, obj.id) == false) {
@@ -101,13 +144,8 @@ function booking_update() {
                     if ((localStartTime > now) && (localStartTime < nextEventStart)) {
                         nextEventStart = localStartTime;
                     }
-
-
-                    $('#no_events_until_later_time').html(nextEventStart.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }));
-
                 }
             });
-
 
             // Remove upcoming ids that no longer exist
             var new_active_ids = [];
@@ -120,72 +158,29 @@ function booking_update() {
             });
             booking_active_upcoming_booking_ids = new_active_ids;
 
+            // Hide or unhide parts as needed
+            console.log(`Active: ${currentBookingsCount} Upcoming: ${upcomingBookingsCount}`);
 
             if (currentBookingsCount > 0) {
-                $('#current_booking').removeClass("hidden");
+                $("#booking-"+RESOURCEID+"-current-booking").removeClass("hidden");
+                console.log("Unhiding");
             } else {
-                $('#current_booking').addClass("hidden");
+                $("#booking-"+RESOURCEID+"-current-booking").addClass("hidden");
             }
 
             if (upcomingBookingsCount > 0) {
-                $('#coming_up_container').removeClass("hidden");
+                $("#booking-"+RESOURCEID+"-coming-up").removeClass("hidden");
+                console.log("Coming up..");
             } else {
-                $('#coming_up_container').addClass("hidden");
+                $("#booking-"+RESOURCEID+"-coming-up").addClass("hidden");
             }
-
+            
             if ((currentBookingsCount == 0) && (upcomingBookingsCount == 0)) {
-                $('#no_events_today').removeClass("hidden");
+                $("#booking-"+RESOURCEID+"-no-events-today").removeClass("hidden");
+                console.log("No bookings today");
             } else {
-                $('#no_events_today').addClass("hidden");
-            }
-
-            if ((currentBookingsCount == 0) && (upcomingBookingsCount > 0)) {
-                $('#no_events_until_later').removeClass("hidden");
-            } else {
-                $('#no_events_until_later').addClass("hidden");
+                $("#booking-"+RESOURCEID+"-no-events-today").addClass("hidden");
             }
         });
-    } else {
-        console.log("Tried to update but no resource GUID is set.");
     }
-}
-
-function booking_refresh_resource_list(URL) {
-    var resource_url = URL + "/Resources";
-
-    $.getJSON(resource_url, function(data) {
-        var html = "";
-        $.each(data, function(list, obj) {
-            html += "<div class=\"bookable_resource\"><a href=\"screen.html?id=" + obj.id + "\">" + obj.name + "</a></div>";
-        });
-
-        $('#' + booking_div_resource_list).html(html);
-    });
-}
-
-/* ************************************************************** */
-/* * Button handling logic                                      * */
-/* ************************************************************** */
-
-function onClick_Booking_btnChangeResource(GUID) {
-    console.log("Changing resource to " + GUID);
-    booking_set_resource(GUID);
-}
-
-function booking_show_resource_menu() {
-	$("#" + booking_div_resource_list).slideDown();
-	$("#" + booking_div_resource_list).removeClass("hidden");
-}
-
-function booking_hide_resource_menu() {
-	$("#" + booking_div_resource_list).slideUp();
-	$("#" + booking_div_resource_list).addClass("hidden");
-}
-
-function booking_toggle_resource_menu() {
-	if ($("#" + booking_div_resource_list).hasClass("hidden")) {
-		booking_show_resource_menu();
-	} else {
-		booking_hide_resource_menu();
-	}
 }

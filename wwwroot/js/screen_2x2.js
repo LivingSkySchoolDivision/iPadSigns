@@ -19,14 +19,32 @@ $(document).ready(function(){
 
     booking_initial_settings("https://booking-api.lskysd.ca");
     
+    var resourceId_tl = urlParams['tl'];
+    var resourceId_tr = urlParams['tr'];
+    var resourceId_bl = urlParams['bl'];
+    var resourceId_br = urlParams['br'];
 
-    //https://booking-api.lskysd.ca/Bookings/bf43a92b-5929-4d44-8203-b4459e5ddf79/2024/01/25
-    var resourceId = urlParams['id'];
+    if (resourceId_tl != null) {
+        if (resourceId_tl.length == 36) {                        
+            booking_init_resource_display("resource_container_tl", resourceId_tl);
+        }
+    }
 
-    if (resourceId != null) {
-        if (resourceId.length == 36) {            
-            //booking_init("https://booking-api.lskysd.ca", resourceId);
-            booking_init_resource_display("resource_container", resourceId);
+    if (resourceId_tr != null) {
+        if (resourceId_tr.length == 36) {                        
+            booking_init_resource_display("resource_container_tr", resourceId_tr);
+        }
+    }
+
+    if (resourceId_bl != null) {
+        if (resourceId_bl.length == 36) {
+            booking_init_resource_display("resource_container_bl", resourceId_bl);
+        }
+    }
+
+    if (resourceId_br != null) {
+        if (resourceId_br.length == 36) {                        
+            booking_init_resource_display("resource_container_br", resourceId_br);
         }
     }
 
