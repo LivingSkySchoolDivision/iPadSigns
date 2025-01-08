@@ -16,23 +16,26 @@
         <meta http-equiv="pragma" content="no-cache" />
 
     	<link href="css/main.css" rel="stylesheet" />
+    	<link href="css/screen_2x2.css" rel="stylesheet" />
 
-        <title>LSSD iPad Signs</title>
-
+        <title>LSSD iPad Signs 2x2</title>
 
         <script src="js/lib/js.cookie.js"></script>
     	<script src="js/lib/jquery-3.6.0.min.js"></script>
     	<script src="js/AppleLinkFix.js"></script>
 
     	<script src="js/bookingapi.js"></script>
-    	<script src="js/index.js"></script>
+    	<script src="js/screen_2x2.js"></script>
 
 	</head>
 	<body>
 		<div class="ipad_sized_page_container">
-            <div id="resource_list">
-
-            </div>
+			<div class="resource_display_grid_2x2">
+				<div id="resource_container_tl" class="resource_main_container" style="border-right: 1px solid #C0C0C0;border-bottom: 1px solid #C0C0C0;"></div>
+				<div id="resource_container_tr" class="resource_main_container" style="border-bottom: 1px solid #C0C0C0;"></div>
+				<div id="resource_container_bl" class="resource_main_container" style="border-right: 1px solid #C0C0C0;"></div>
+				<div id="resource_container_br" class="resource_main_container" style=""></div>
+			</div>
         </div>
 	</body>
 </html>
