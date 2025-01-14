@@ -28,12 +28,11 @@
 
 	</head>
 	<body>
-		<div class="full_screen_button">			
-			<a href='javascript: (function(){document.querySelector("body").requestFullscreen();})();'>
-				<img src="img/full-screen.svg">
-			</a>			
-		</div>		
 		<div class="ipad_sized_page_container">
+			<div class="full_screen_button">			
+				<img src="img/full-screen.svg" onclick='javascript: (function(){document.querySelector("body").requestFullscreen();})();'>
+			</div>	
+
             <div id="resource_list"></div>
         </div>
 	</body>
