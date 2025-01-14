@@ -52,7 +52,4 @@ setInterval(function() {
     booking_update();
 }, 10000); // 10 seconds
 
-// Refresh the page periodically (2.5 hrs)
-setInterval(function() {
-    window.location.replace(window.location.href);
-}, 9000000);
+// Don't refresh the page for now, it will mess with it's full-screen-ness
