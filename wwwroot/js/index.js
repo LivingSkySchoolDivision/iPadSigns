@@ -3,6 +3,7 @@
 /* ******************************************** */
 $(document).ready(function(){      
     booking_refresh_resource_list("https://booking-api.lskysd.ca");
+    document.querySelector("body").requestFullscreen();
 });
 
 
@@ -25,7 +26,4 @@ setInterval(function() {
     booking_refresh_resource_list("https://booking-api.lskysd.ca");
 }, 300000);
 
-// Refresh the page periodically (2.5 hrs)
-setInterval(function() {
-    window.location.replace(window.location.href);
-}, 9000000);
+// Don't refresh the page for now, it will mess with it's full-screen-ness
